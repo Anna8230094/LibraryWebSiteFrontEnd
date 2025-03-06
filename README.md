@@ -1,7 +1,5 @@
 # LibraryWebSite
 
-# libraryWebSite
-
 # Full Stack Application - React & Spring Boot
 
 This repository contains a full-stack application built with **React** for the frontend and **Spring Boot** for the backend. It includes **Stripe credit card payments**, **Spring Security**, **JWT authentication**, and **Spring Data JPA**.
