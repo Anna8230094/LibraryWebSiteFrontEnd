@@ -2,23 +2,32 @@ import { useEffect, useState } from "react";
 import BookModel from "../../Models/BookModel";
 import { SpinnerLoading } from "../Utils/SpinnerLoading";
 import { SearchBook } from "./components/SearchBook";
+import { Pagination } from "../Utils/Pagination";
+
 
 export const SearchBookPage = () => {
   const [books, setBooks] = useState<BookModel[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [httpError, setHttpError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [booksPerPage, setBooksPerPage] = useState(5);
+  const [totalAmountOfBooks, setTotalAmmountOfBook] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     const fetchBooks = async () => {
       //await promise to come back
       const baseUrl: string = "http://localhost:8080/api/books";
-      const url: string = `${baseUrl}?page=0&size=5`;
+      const url: string = `${baseUrl}?page=${currentPage-1}&size=${booksPerPage}`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error("Something went wrong");
       }
       const resposeJson = await response.json(); //covert response into json
       const responseData = resposeJson._embedded.books; // we want to call _embeded.books that we dont have to reuse this every single time
+
+      setTotalAmmountOfBook(resposeJson.page.totalElements);
+      setTotalPages(resposeJson.page.totalPages)
       const loadedBooks: BookModel[] = [];
 
       for (const key in responseData) {
@@ -53,6 +62,11 @@ export const SearchBookPage = () => {
       </div>
     );
   }
+
+const indexOfLastBook: number = currentPage * booksPerPage;
+const indexOfFirstBook:number = indexOfLastBook - booksPerPage;
+let lastItem = booksPerPage * currentPage <= totalAmountOfBooks ? booksPerPage * currentPage  : totalAmountOfBooks;
+const paginate = (pageNumber : number) => setCurrentPage(pageNumber);
 
   return (
     <div className="container">
@@ -111,6 +125,8 @@ export const SearchBookPage = () => {
           {books.map((book) => (
             <SearchBook book={book} key={book.id} />
           ))}
+          {totalPages >1 && <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate}/>}
+          {/*only render pagination if totalPages are >1 */}
         </div>
       </div>
     </div>
