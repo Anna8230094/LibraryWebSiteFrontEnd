@@ -7,12 +7,14 @@ import { Route, Router, Routes } from "react-router";
 
 export const App = () => {
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100">
       <Nabar />
-      <Routes>
+      <div className="flex-grow-1">
+        <Routes>
         <Route path="/home" element={<HomePage/>} />
         <Route path="/search" element={<SearchBookPage />} />
       </Routes>
+      </div>
       <Footer />
     </div>
   );
