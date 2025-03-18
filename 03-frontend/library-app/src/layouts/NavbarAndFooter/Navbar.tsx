@@ -9,7 +9,7 @@ export const Nabar = () => {
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-tartget="#navbarNavDropDown"
+          data-bs-target="#navbarNavDropDown"
           aria-controls="navbarNavDropDown"
           aria-expanded="false"
           aria-label="Toggle navigation"
